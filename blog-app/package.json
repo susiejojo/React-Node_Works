@@ -18,5 +18,12 @@
   "bugs": {
     "url": "https://github.com/susiejojo/Blog-App/issues"
   },
-  "homepage": "https://github.com/susiejojo/Blog-App#readme"
+  "homepage": "https://github.com/susiejojo/Blog-App#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-edge": "^1.0.0",
+    "mongoose": "^5.5.13",
+    "nodemon": "^1.19.1",
+    "startbootstrap-clean-blog": "^5.0.6"
+  }
 }
