@@ -1,0 +1,22 @@
+{
+  "name": "pictures-blog",
+  "version": "1.0.0",
+  "description": "Blog for pictures",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/susiejojo/Blog-App.git"
+  },
+  "keywords": [
+    "blog"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/susiejojo/Blog-App/issues"
+  },
+  "homepage": "https://github.com/susiejojo/Blog-App#readme"
+}
