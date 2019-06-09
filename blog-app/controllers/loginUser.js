@@ -14,14 +14,15 @@ module.exports = (req, res) => {
             // compare passwords.
             bcrypt.compare(password, user.password, (error, same) => {
                 if (same) {
-                    // store user session.
+                    req.session.userId=user._id
                     res.redirect('/')
+
                 } else {
-                    res.redirect('/login')
+                    res.redirect('/register')
                 }
             })
         } else {
-            return res.redirect('/login')
+            return res.redirect('/register')
         }
     })
 }
