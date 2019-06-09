@@ -3,6 +3,7 @@ const express = require('express');
 const expressEdge=require('express-edge');
 const app = new express();
 const mongoose=require("mongoose");
+const edge = require("edge.js");
 const bodyParser=require("body-parser");
 const fileUpload=require("express-fileupload");
 const Post=require('./database/models/Post');
@@ -14,8 +15,9 @@ const loginUserController = require('./controllers/loginUser');
 const expressSession = require('express-session');
 const connectMongo = require('connect-mongo');
 const auth = require("./middleware/auth");
+const redirectIfAuthenticated = require('./middleware/redirectIfAuthenticated')
 const connectFlash = require("connect-flash");
-
+const logoutController = require("./controllers/logout");
 mongoose.connect('mongodb://localhost:27017/node-blog', { useNewUrlParser: true })
     .then(() => 'You are now connected to Mongo!')
     .catch(err => console.error('Something went wrong', err))
@@ -39,8 +41,13 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 const storePost = require('./middleware/storePost')
-app.use('/posts/store', storePost)
+app.use('/posts/store',auth,storePost)
 app.set('views',__dirname+"/views");
+app.get("/auth/logout",redirectIfAuthenticated, logoutController);
+app.use('*', (req, res, next) => {
+    edge.global('auth', req.session.userId)
+    next()
+});
 app.get('/', async (req, res) => {
     const posts=await Post.find({})
     res.render('index',{
@@ -48,16 +55,23 @@ app.get('/', async (req, res) => {
     })
 });
 app.get("/new",auth,createPostController);
-app.get("/register",createUserController);
-app.get("/new",createPostController);
+app.get('/register',(req,res)=>{
+	res.render('register');
+});
 app.post('/posts/store', (req, res) => {
     Post.create(req.body,(error,post)=>{
     	res.redirect('/')
     })
 });
-app.post("/users/register",storeUserController);
-app.get("/login",loginController);
-app.post("/users/login",loginUserController);
+app.get("/new",auth,createPostController);
+app.post('/posts/store', (req, res) => {
+    Post.create(req.body,(error,post)=>{
+    	res.redirect('/')
+    })
+});
+app.post("/users/register",redirectIfAuthenticated,storeUserController);
+app.get("/login",redirectIfAuthenticated,loginController);
+app.post("/users/login",redirectIfAuthenticated,loginUserController);
 app.get('/about', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'pages/about.html'));
 });
