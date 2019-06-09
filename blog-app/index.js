@@ -7,6 +7,8 @@ const bodyParser=require("body-parser");
 const fileUpload=require("express-fileupload");
 const Post=require('./database/models/Post');
 const storeUserController=require("./controllers/storeUser");
+const loginController=require("./controllers/login");
+const loginUserController = require('./controllers/loginUser');
 
 mongoose.connect('mongodb://localhost:27017/node-blog', { useNewUrlParser: true })
     .then(() => 'You are now connected to Mongo!')
@@ -38,6 +40,8 @@ app.post('/posts/store', (req, res) => {
     })
 });
 app.post("/users/register",storeUserController);
+app.get("/login",loginController);
+app.post("/users/login",loginUserController);
 app.get('/about', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'pages/about.html'));
 });
