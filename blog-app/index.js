@@ -2,6 +2,12 @@ const path = require('path');
 const express = require('express');
 const expressEdge=require('express-edge');
 const app = new express();
+const mongoose=require("mongoose");
+
+mongoose.connect('mongodb://localhost:27017/node-blog', { useNewUrlParser: true })
+    .then(() => 'You are now connected to Mongo!')
+    .catch(err => console.error('Something went wrong', err))
+    
 app.use(express.static('public'));
 app.use(expressEdge);
 app.set('views',__dirname+"/views");
@@ -17,6 +23,9 @@ app.get('/contact', (req, res) => {
 app.get('/post', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'pages/post.html'));
 });
+app.get('/posts/new', (req, res) => {
+    res.render('create');
+});
 app.listen(4000, () => {
-    console.log('App listening on port 4000')
+    console.log('App listening on port 4000');
 });
