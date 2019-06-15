@@ -60,9 +60,8 @@ export default {
   },
   methods: {
     async refreshPosts () {
-      this.loading = true
       this.posts = await api.getPosts()
-      this.loading = false
+      this.loading = true
     },
     async populatePostToEdit (post) {
       this.model = Object.assign({}, post)

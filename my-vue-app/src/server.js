@@ -62,7 +62,7 @@ let userResource = epilogue.resource({
 database
   .sync({ force: true })
   .then(() => {
-    app.listen(8081, () => {
-      console.log('listening to port localhost:8081')
+    app.listen(6000, () => {
+      console.log('listening to port localhost:6000')
     })
   })
